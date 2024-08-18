@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: gray; /* Dark background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #f4f4f4; /* Light grey text color */
+        }
+
+        .container {
+            text-align: center;
+            background-color: #2c2c2c; /* Matte black background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+            color: #f4f4f4; /* Light grey text color */
+        }
+
+        input[type="text"] {
+            width: 40%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #555; /* Darker border */
+            background-color: #333; /* Darker input background */
+            color: #f4f4f4; /* Light grey text color */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .flashcards {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 250px;
+            height: 320px;
+            margin: 10px;
+            perspective: 1000px;
+            position: relative;
+        }
+
+        .thecard {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+            background-color: #2c2c2c; /* Matte black background */
+            color: #f4f4f4; /* Light grey text color */
+        }
+
+        .thecard:hover {
+            transform: rotateY(180deg);
+        }
+
+        .thefront,
+        .theback {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .thefront {
+            background-color: #45474B; /* Dark front card */
+            color: #f4f4f4; /* Light grey text color */
+        }
+
+        .theback {
+            background-color: #E3F4F4; /* Slightly lighter back card */
+            color: black; /* Light grey text color */
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Create a Flashcard</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="front" placeholder="Front Side" required>
+            <input type="text" name="back" placeholder="Back Side" required>
+            <button type="submit">Generate Flashcard</button>
+        </form>
+        <div class="flashcards">
+            {% for flashcard in flashcards %}
+            <div class="flashcard">
+                <div class="thecard">
+                    <div class="thefront">{{ flashcard.front }}</div>
+                    <div class="theback">{{ flashcard.back }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>
